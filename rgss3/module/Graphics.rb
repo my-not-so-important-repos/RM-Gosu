@@ -38,12 +38,14 @@ module Graphics
   end
   
   def transition(duration = 10, filename = "", vague = 40)
+    # VAGUE ELUDES ME AS TO HOW TO INTEGRATE
   end
   
   def snap_to_bitmap
   end
   
   def frame_reset
+    # AT A LOSS ON HOW TO INTEGRATE
   end
   
   def width
@@ -59,6 +61,7 @@ module Graphics
   end
   
   def play_movie(filename)
+    # LIKELY TO REMAIN UNINTEGRATED
   end
   
   # NEW

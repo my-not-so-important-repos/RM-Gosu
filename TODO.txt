@@ -1,16 +1,16 @@
 classes - 
-	Bitmap
-	Font
-	Plane
-	Sprite
+	Bitmap (gradient_fill_rect, blur, radial_blur, text_size, draw_text)
+	Font (All)
+	Plane (All)
+	Sprite (All)
 	Table (resize)
-	Tilemap
-	Viewport
-	Window
+	Tilemap (All)
+	Viewport (All)
+	Window (All)
 
 modules - 
-	Audio
-	Graphics
+	Audio (All)
+	Graphics (update, wait, fadeout, fadein, freeze, transitions, snap_to_bitmap, frame_reset, [latest])
 	Input (repeat?)
 
 ext - 
