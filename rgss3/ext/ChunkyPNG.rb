@@ -18,6 +18,18 @@ module ChunkyPNG
       }
     end
     
+    def hue_change(hue)
+      width.times {|i|
+        f = column(i)
+        f.each_with_index {|a, b|
+          col = Gosu::Color.rgba(*Color.from_int(a))
+          col.hue = hue
+          f[b] = Color.rgba(col.red, col.green, col.blue, col.alpha)
+        }
+        replace_column!(i, f)
+      }
+    end
+    
     def self.from_gosu(image)
       from_rgba_stream(image.width, image.height, image.to_blob)
     end

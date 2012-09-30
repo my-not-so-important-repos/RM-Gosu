@@ -41,7 +41,6 @@ class Bitmap
     im2.set_opacity(opacity)
     im1.compose!(im2, x, y)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, im1, false)
-    set_chunkypng_image
   end
   
   def stretch_blt(dest_rect, src_bitmap, src_rect, opacity = 255)
@@ -52,7 +51,6 @@ class Bitmap
     im2.resample_bilinear!(dest_rect.width, dest_rect.height)
     im1.compose!(im2, dest_rect.x, dest_rect.y)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, im1, false)
-    set_chunkypng_image
   end
   
   def fill_rect(*args)
@@ -69,7 +67,6 @@ class Bitmap
     im = ChunkyPNG::Canvas.new(width, height, ChunkyPNG::Color.rgba(*args[4].to_a))
     @chunkypng_image.replace!(im, x, y)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
-    set_chunkypng_image
   end
   
   def gradient_fill_rect(*args)
@@ -94,7 +91,6 @@ class Bitmap
     im = ChunkyPNG::Canvas.new(width, height)
     @chunkypng_image.replace!(im, x, y)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
-    set_chunkypng_image
   end
   
   def get_pixel(x, y)
@@ -105,6 +101,8 @@ class Bitmap
   end
   
   def hue_change(hue)
+    @chunkypng_image.hue_change(hue)
+    @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
   end
   
   def blur
