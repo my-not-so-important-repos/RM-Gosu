@@ -9,7 +9,7 @@ class Bitmap
       if width.is_a?(String)
         @gosu_image = Gosu::Image.new(Graphics.gosu_window, width, false)
       else
-        raise ArguementError
+        raise ArgumentError
       end
     when Integer
       @gosu_image = Gosu::Image.new(Graphics.gosu_window, ChunkyPNG::Canvas.new(width, height), false)
@@ -36,18 +36,18 @@ class Bitmap
   
   def blt(x, y, src_bitmap, src_rect, opacity = 255)
     im1 = @chunkypng_image
-    im2 = src_bitmap.chunkypng_image
+    im2 = src_bitmap.chunkypng_image.dup
     im2.crop!(*src_rect.to_a)
-    im2.set_opacity(opacity)
+    im2.set_opacity(opacity) unless opacity == 255
     im1.compose!(im2, x, y)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, im1, false)
   end
   
   def stretch_blt(dest_rect, src_bitmap, src_rect, opacity = 255)
     im1 = @chunkypng_image
-    im2 = src_bitmap.chunkypng_image
+    im2 = src_bitmap.chunkypng_image.dup
     im2.crop!(*src_rect.to_a)
-    im2.set_opacity(opacity)
+    im2.set_opacity(opacity) unless opacity == 255
     im2.resample_bilinear!(dest_rect.width, dest_rect.height)
     im1.compose!(im2, dest_rect.x, dest_rect.y)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, im1, false)
@@ -62,7 +62,7 @@ class Bitmap
         x, y, width, height = *args[0..3]
       end
     else
-      raise ArguementError
+      raise ArgumentError
     end
     im = ChunkyPNG::Canvas.new(width, height, ChunkyPNG::Color.rgba(*args[4].to_a))
     @chunkypng_image.replace!(im, x, y)
@@ -86,7 +86,7 @@ class Bitmap
         x, y, width, height = *args
       end
     else
-      raise ArguementError
+      raise ArgumentError
     end
     im = ChunkyPNG::Canvas.new(width, height)
     @chunkypng_image.replace!(im, x, y)
@@ -98,6 +98,8 @@ class Bitmap
   end
   
   def set_pixel(x, y, color)
+    @chunkypng_image.set_pixel(x, y, ChunkyPNG::Color.rgba(*color.to_a))
+    @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
   end
   
   def hue_change(hue)

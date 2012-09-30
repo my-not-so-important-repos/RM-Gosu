@@ -9,22 +9,24 @@ module ChunkyPNG
     end
     
     def set_opacity(diff)
-      width.times {|i|
-        f = column(i)
-        f.each_with_index {|a, b|
-          f[b] = Color.fade(a, diff)
-        }
-        replace_column!(i, f)
+      each_pixel {|a|
+        Color.fade(a, diff)
       }
     end
     
     def hue_change(hue)
+      each_pixel {|a| 
+        col = Gosu::Color.rgba(*Color.from_int(a))
+        col.hue = hue
+        Color.rgba(col.red, col.green, col.blue, col.alpha)
+      }
+    end
+    
+    def each_pixel(&block)
       width.times {|i|
         f = column(i)
         f.each_with_index {|a, b|
-          col = Gosu::Color.rgba(*Color.from_int(a))
-          col.hue = hue
-          f[b] = Color.rgba(col.red, col.green, col.blue, col.alpha)
+          f[b] = block.call(a)
         }
         replace_column!(i, f)
       }
