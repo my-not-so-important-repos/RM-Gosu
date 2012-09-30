@@ -36,7 +36,7 @@ class Bitmap
   
   def blt(x, y, src_bitmap, src_rect, opacity = 255)
     im1 = @chunkypng_image
-    im2 = ChunkyPNG::Canvas.from_gosu(src_bitmap.gosu_image)
+    im2 = src_bitmap.chunkypng_image
     im2.crop!(*src_rect.to_a)
     im2.set_opacity(opacity)
     im1.compose!(im2, x, y)
@@ -46,7 +46,7 @@ class Bitmap
   
   def stretch_blt(dest_rect, src_bitmap, src_rect, opacity = 255)
     im1 = @chunkypng_image
-    im2 = ChunkyPNG::Canvas.from_gosu(src_bitmap.gosu_image)
+    im2 = src_bitmap.chunkypng_image
     im2.crop!(*src_rect.to_a)
     im2.set_opacity(opacity)
     im2.resample_bilinear!(dest_rect.width, dest_rect.height)
