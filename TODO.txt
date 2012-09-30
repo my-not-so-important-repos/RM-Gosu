@@ -1,0 +1,17 @@
+classes - 
+	Bitmap
+	Font
+	Plane
+	Sprite
+	Table (resize)
+	Tilemap
+	Viewport
+	Window
+
+modules - 
+	Audio
+	Graphics
+	Input (repeat?)
+
+ext - 
+	Object (rgss_main, msgbox, msgbox_p)
