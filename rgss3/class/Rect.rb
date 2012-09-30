@@ -17,8 +17,7 @@ class Rect
 		case args.size
 		when 1
 			if args[0].is_a?(Rect)
-				re = args[0]
-				set(re.x, re.y, re.width, re.height)
+				set(*args[0].to_a)
 			else
 				raise ArgumentError
 			end
@@ -31,5 +30,9 @@ class Rect
 	
 	def empty
 		set(0, 0, 0, 0)
+	end
+	
+	def to_a
+		[x, y, width, height]
 	end
 end

@@ -21,7 +21,7 @@ class Color
 		when 1
 			if args[0].is_a?(Color)
 				re = args[0]
-				set(re.red, re.green, re.blue, re.alpha)
+				set(*args[0].to_a)
 			else
 				raise ArgumentError
 			end
@@ -56,6 +56,10 @@ class Color
 	
 	def alpha=(int)
 		@alpha = [[255, int].min, 0].max.to_f
+	end
+	
+	def to_a
+		[red, green, blue, alpha]
 	end
 	
 	def _dump(d = 0)

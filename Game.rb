@@ -2,7 +2,7 @@ require 'gosu'
 require 'zlib'
 require 'chunky_png'
 
-Dir["rgss3/**/*.*"].each {|a| require_relative(a) }
+Dir["rgss3/**/*.rb"].each {|a| require_relative(a) }
 
 class GosuGame < Gosu::Window
 	

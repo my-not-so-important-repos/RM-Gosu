@@ -20,8 +20,7 @@ class Tone
 		case args.size
 		when 1
 			if args[0].is_a?(Tone)
-				re = args[0]
-				set(re.red, re.green, re.blue, re.gray)
+				set(*args[0].to_a)
 			else
 				raise ArgumentError
 			end
