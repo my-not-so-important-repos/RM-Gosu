@@ -1,6 +1,6 @@
 require 'gosu'
 require 'zlib'
-require 'chunky_png'
+require 'oily_png'
 
 Dir["rgss3/**/*.rb"].each {|a| require_relative(a) }
 

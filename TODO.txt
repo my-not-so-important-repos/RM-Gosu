@@ -5,7 +5,7 @@ classes -
 	Sprite (All)
 	Table (resize)
 	Tilemap (All)
-	Viewport (All)
+	Viewport (update) <incorporate flash effect>
 	Window (All)
 
 modules - 

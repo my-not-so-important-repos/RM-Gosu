@@ -98,7 +98,7 @@ class Bitmap
   end
   
   def set_pixel(x, y, color)
-    @chunkypng_image.set_pixel(x, y, ChunkyPNG::Color.rgba(*color.to_a))
+    @chunkypng_image.set_pixel(x, y, ChunkyPNG::Color.rgba(*color.to_a.collect {|a| a.to_i }))
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
   end
   
