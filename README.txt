@@ -5,7 +5,7 @@ Will add details later.
 Uses:
 
 - zlib
-- chunky_png
+- oily_png
 - gosu
 
 Extra Credits:
