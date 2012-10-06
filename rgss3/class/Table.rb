@@ -8,7 +8,13 @@ class Table
     @data = Array.new(x * y * z, 0)
   end
   
-  def resize(xsize, ysize = nil, zsize = nil)
+  def resize(x, y = nil, z = nil)
+    @dim = 1 + ((y || @ysize) > 0 ? 1 : 0) + ((z || @zsize) > 0 ? 1 : 0)
+    @xsize, @ysize, @zsize = x, [y || @ysize, 1].max, [z || @zsize, 1].max
+    @data = @data[0, @xsize * @ysize * @zsize - 1]
+    until @data.size == @xsize * @ysize * @zsize
+      @data << 0
+    end
   end
    
   def [](x, y = 0, z = 0)

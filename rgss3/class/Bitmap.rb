@@ -15,6 +15,7 @@ class Bitmap
       @gosu_image = Gosu::Image.new(Graphics.gosu_window, ChunkyPNG::Canvas.new(width, height), false)
     end
     @rect = Rect.new(0, 0, @gosu_image.width, @gosu_image.height)
+    @font = Font.new
     set_chunkypng_image
   end
   
@@ -64,8 +65,8 @@ class Bitmap
     else
       raise ArgumentError
     end
-    im = ChunkyPNG::Canvas.new(width, height, ChunkyPNG::Color.rgba(*args[4].to_a))
-    @chunkypng_image.replace!(im, x, y)
+    color = ChunkyPNG::Color.rgba(*args[4].to_a)
+    @chunkypng_image.rect(x, y, width, height, color, color)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
   end
   
@@ -88,8 +89,7 @@ class Bitmap
     else
       raise ArgumentError
     end
-    im = ChunkyPNG::Canvas.new(width, height)
-    @chunkypng_image.replace!(im, x, y)
+    @chunkypng_image.rect(x, y, width, height, ChunkyPNG::Color::TRANSPARENT)
     @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
   end
   
@@ -120,6 +120,8 @@ class Bitmap
   end
   
   # NEW
+  
+  private
   
   def set_chunkypng_image
     @chunkypng_image = ChunkyPNG::Canvas.from_gosu(@gosu_image)
