@@ -36,7 +36,6 @@ class GosuGame < Gosu::Window
   end
   
   def update
-    Input.update
     update_fps
   end
   
@@ -63,3 +62,5 @@ end
 
 Graphics.gosu_window = GosuGame.new
 Graphics.gosu_window.show
+
+Graphics.gosu_window.close

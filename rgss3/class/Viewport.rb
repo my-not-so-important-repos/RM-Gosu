@@ -17,6 +17,10 @@ class Viewport
     else
       raise ArgumentError
     end
+    @visible = true
+    @z = 0
+    @ox = 0
+    @oy = 0
   end
   
   def dispose

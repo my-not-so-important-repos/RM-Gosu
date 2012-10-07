@@ -1,14 +1,14 @@
 classes - 
 	Bitmap (gradient_fill_rect, blur, radial_blur, draw_text)
 	Plane (All)
-	Sprite (All)
+	Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
 	Tilemap (All)
 	Viewport (update) <incorporate flash effect>
 	Window (All)
 
 modules - 
 	Audio (All)
-	Graphics (update, wait, fadeout, fadein, freeze, transitions, snap_to_bitmap, frame_reset, [latest])
+	Graphics (transitions, frame_reset, play_movie)
 	Input (repeat?)
 
 ext - 
