@@ -20,7 +20,7 @@ class Font
   self.default_bold = false
   self.default_italic = false
   self.default_shadow = false
-  self.default_outline = false
+  self.default_outline = true
   self.default_color = Color.new(255, 255, 255, 255)
   self.default_out_color = Color.new(0, 0, 0, 128)
   

@@ -1,5 +1,5 @@
 classes - 
-	Bitmap (gradient_fill_rect, blur, radial_blur, draw_text)
+	Bitmap (gradient_fill_rect, blur, radial_blur)
 	Plane (All)
 	Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
 	Tilemap (All)

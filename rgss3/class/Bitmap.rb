@@ -1,9 +1,9 @@
 class Bitmap
   
-  attr_reader :rect, :chunkypng_image
-  attr_accessor :font, :gosu_image
+  attr_reader :rect, :chunkypng_image, :gosu_image
+  attr_accessor :font
   
-  ALIGN = {0 => :left, 1 => :right, 2 => :center, 3 => :justify}
+  ALIGN = {0 => :left, 1 => :center, 2 => :right, 3 => :justify}
   
   def initialize(width, height = nil)
     case height
@@ -38,22 +38,20 @@ class Bitmap
   end
   
   def blt(x, y, src_bitmap, src_rect, opacity = 255)
-    im1 = @chunkypng_image
     im2 = src_bitmap.chunkypng_image.dup
     im2.crop!(*src_rect.to_a)
     im2.set_opacity(opacity) unless opacity == 255
-    im1.compose!(im2, x, y)
-    @gosu_image = Gosu::Image.new(Graphics.gosu_window, im1, false)
+    @gosu_image.insert(im2, x, y)
+    set_chunkypng_image
   end
   
   def stretch_blt(dest_rect, src_bitmap, src_rect, opacity = 255)
-    im1 = @chunkypng_image
     im2 = src_bitmap.chunkypng_image.dup
     im2.crop!(*src_rect.to_a)
     im2.set_opacity(opacity) unless opacity == 255
     im2.resample_bilinear!(dest_rect.width, dest_rect.height)
-    im1.compose!(im2, dest_rect.x, dest_rect.y)
-    @gosu_image = Gosu::Image.new(Graphics.gosu_window, im1, false)
+    @gosu_image.insert(im2, dest_rect.x, dest_rect.y)
+    set_chunkypng_image
   end
   
   def fill_rect(*args)
@@ -67,16 +65,17 @@ class Bitmap
     else
       raise ArgumentError
     end
-    color = ChunkyPNG::Color.rgba(*args[4].to_a)
-    @chunkypng_image.rect(x, y, width, height, color, color)
-    @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
+    color = ChunkyPNG::Color.rgba(*args[4].to_a.collect {|a| a.round })
+    img = ChunkyPNG::Canvas.new(width, height, color)
+    @gosu_image.insert(img, x, y)
+    set_chunkypng_image
   end
   
   def gradient_fill_rect(*args)
   end
   
   def clear
-    @gosu_image = Gosu::Image.new(Graphics.gosu_window, ChunkyPNG::Canvas.new(width, height), false)
+    @gosu_image.insert(ChunkyPNG::Canvas.new(width, height, ChunkyPNG::Color::TRANSPARENT), 0, 0)
     set_chunkypng_image
   end
   
@@ -91,8 +90,9 @@ class Bitmap
     else
       raise ArgumentError
     end
-    @chunkypng_image.rect(x, y, width, height, ChunkyPNG::Color::TRANSPARENT)
-    @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
+    f = ChunkyPNG::Canvas.new(width, height, ChunkyPNG::Color::TRANSPARENT)
+    @gosu_image.insert(f, x, y)
+    set_chunkypng_image
   end
   
   def get_pixel(x, y)
@@ -100,13 +100,12 @@ class Bitmap
   end
   
   def set_pixel(x, y, color)
-    @chunkypng_image.set_pixel(x, y, ChunkyPNG::Color.rgba(*color.to_a.collect {|a| a.to_i }))
-    @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
+    fill_rect(x, y, 1, 1, color)
   end
   
   def hue_change(hue)
     @chunkypng_image.hue_change(hue)
-    @gosu_image = Gosu::Image.new(Graphics.gosu_window, @chunkypng_image, false)
+    @gosu_image.insert(@chunkypng_image, 0, 0)
   end
   
   def blur
@@ -116,6 +115,65 @@ class Bitmap
   end
   
   def draw_text(*args)
+    case args.size
+    when 2, 3
+      x, y, width, height = *args[0].to_a
+      string = args[1]
+      align = args[2]
+    when 5, 6
+      x, y, width, height = *args[0, 4]
+      string = args[4]
+      align = args[5]
+    else
+      raise ArgumentError
+    end
+    string = string.to_s.gsub('<', '&lt;').gsub('>', '&gt;')
+    if @font.bold
+      string.prepend("<b>") << "</b>"
+    end
+    if @font.italic
+      string.prepend("<i>") << "</i>"
+    end
+    image = Gosu::Image.from_text(Graphics.gosu_window, string, @font.first_existant_name, @font.size)
+    image = ChunkyPNG::Canvas.from_gosu(image)
+    image.each_pixel {|c| 
+      color = @font.color.dup
+      color.alpha = ChunkyPNG::Color.a(c)
+      ChunkyPNG::Color.rgba(*color.to_a.collect {|a| a.round })
+    }
+    image = Gosu::Image.new(Graphics.gosu_window, image, false)
+    if @font.outline
+      outline = Gosu::Image.from_text(Graphics.gosu_window, string, @font.first_existant_name, @font.size + 2)
+      outline = ChunkyPNG::Canvas.from_gosu(outline)
+      outline.each_pixel {|c| 
+        color = @font.out_color.dup
+        color.alpha = ChunkyPNG::Color.a(c)
+        ChunkyPNG::Color.rgba(*color.to_a.collect {|a| a.round })
+      }
+      outline = Gosu::Image.new(Graphics.gosu_window, outline, false)
+      outline.insert(image, 1, 1)
+      image = outline
+    end
+    if @font.shadow
+      shadow = Gosu::Image.from_text(Graphics.gosu_window, string, @font.first_existant_name, @font.size + 2)
+      shadow = ChunkyPNG::Canvas.from_gosu(shadow)
+      shadow.each_pixel {|c| 
+        color = ChunkyPNG::Color.rgba(0, 0, 0, 128)
+        color.alpha = ChunkyPNG::Color.a(c)
+        ChunkyPNG::Color.rgba(*color.to_a.collect {|a| a.round })
+      }
+      shadow = Gosu::Image.new(Graphics.gosu_window, shadow, false)
+      shadow.insert(image, 0, 0)
+      image = shadow
+    end
+    x += (width - image.width) * (align || 0) / 2
+    bitmap = Bitmap.from_gosu(image)
+    rect = Rect.new(x, y, bitmap.width > width ? width : bitmap.width, bitmap.height > height ? height : bitmap.height)
+    if rect.to_a == bitmap.rect.to_a
+      blt(x, y, bitmap, bitmap.rect)
+    else
+      stretch_blt(rect, bitmap, bitmap.rect)
+    end
   end
   
   def text_size(string)
@@ -134,5 +192,10 @@ class Bitmap
   
   def set_chunkypng_image
     @chunkypng_image = ChunkyPNG::Canvas.from_gosu(@gosu_image)
-  end  
+  end
+  
+  def gosu_image=(im)
+    @gosu_image = im
+    @rect = Rect.new(0, 0, im.width, im.height)
+  end
 end
