@@ -36,4 +36,15 @@ class Font
     @color = Font.default_color.dup
     @out_color = Font.default_out_color.dup
   end
+  
+  # NEW
+  
+  def first_existant_name
+    if @name.is_a?(Array)
+      @name.each {|a| return a if Font.exist?(a) }
+    else
+      return @name if Font.exist?(@name)
+    end
+    return "Verdana"
+  end
 end

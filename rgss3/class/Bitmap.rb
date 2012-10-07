@@ -1,7 +1,9 @@
 class Bitmap
   
-  attr_reader :rect, :gosu_image, :chunkypng_image
-  attr_accessor :font
+  attr_reader :rect, :chunkypng_image
+  attr_accessor :font, :gosu_image
+  
+  ALIGN = {0 => :left, 1 => :right, 2 => :center, 3 => :justify}
   
   def initialize(width, height = nil)
     case height
@@ -117,13 +119,20 @@ class Bitmap
   end
   
   def text_size(string)
+    f = Gosu::Font.new(Graphics.gosu_window, @font.first_existant_name, @font.size)
+    Rect.new(0, 0, f.text_width(string), f.height)
   end
   
   # NEW
   
-  private
+  def self.from_gosu(img)
+    bitmap = Bitmap.new(img.width, img.height)
+    bitmap.gosu_image = img
+    bitmap.set_chunkypng_image
+    bitmap
+  end
   
   def set_chunkypng_image
     @chunkypng_image = ChunkyPNG::Canvas.from_gosu(@gosu_image)
-  end
+  end  
 end

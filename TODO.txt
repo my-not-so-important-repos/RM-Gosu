@@ -1,5 +1,5 @@
 classes - 
-	Bitmap (gradient_fill_rect, blur, radial_blur, text_size, draw_text)
+	Bitmap (gradient_fill_rect, blur, radial_blur, draw_text)
 	Plane (All)
 	Sprite (All)
 	Tilemap (All)
