@@ -3,8 +3,6 @@ class Bitmap
   attr_reader :rect, :chunkypng_image, :gosu_image
   attr_accessor :font
   
-  ALIGN = {0 => :left, 1 => :center, 2 => :right, 3 => :justify}
-  
   def initialize(width, height = nil)
     case height
     when nil

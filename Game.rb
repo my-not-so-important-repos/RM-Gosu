@@ -12,7 +12,7 @@ class GosuGame < Gosu::Window
     :Width => 544,
     :Height => 416,
     :Fullscreen => false,
-    :Windows => true,
+    :Windows => false,
     :Framerate => 60
   }
   

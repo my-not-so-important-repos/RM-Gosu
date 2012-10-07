@@ -1,6 +1,11 @@
 class Object
   
   def rgss_main(&block)
+    begin
+      block.call
+    rescue RGSSReset
+      retry
+    end
   end
   
   def rgss_stop
