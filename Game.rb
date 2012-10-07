@@ -61,6 +61,11 @@ class GosuGame < Gosu::Window
 end
 
 Graphics.gosu_window = GosuGame.new
-Graphics.gosu_window.show
 
-Graphics.gosu_window.close
+Thread.new {
+  loop {
+    Graphics.update
+  }
+}
+
+Graphics.gosu_window.show

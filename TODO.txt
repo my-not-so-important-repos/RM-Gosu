@@ -1,5 +1,5 @@
 classes - 
-	Bitmap (gradient_fill_rect, blur, radial_blur)
+	Bitmap (gradient_fill_rect, radial_blur)
 	Plane (All)
 	Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
 	Tilemap (All)
@@ -7,9 +7,8 @@ classes -
 	Window (All)
 
 modules - 
-	Audio (All)
 	Graphics (transitions, frame_reset, play_movie)
 	Input (repeat?)
 
 ext - 
-	Object (rgss_main, msgbox, msgbox_p)
+	Object (msgbox, msgbox_p)

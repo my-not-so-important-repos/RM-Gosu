@@ -34,6 +34,7 @@ class Sprite
   
   def dispose
     @disposed = true
+    Graphics.remove_sprite(self)
   end
   
   def disposed?

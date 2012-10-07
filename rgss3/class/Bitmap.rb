@@ -107,6 +107,8 @@ class Bitmap
   end
   
   def blur
+    @chunkypng_image.gaussian_blur
+    @gosu_image.insert(@chunkypng_image, 0, 0)
   end
   
   def radial_blur(angle, division)
