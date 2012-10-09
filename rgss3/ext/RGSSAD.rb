@@ -4,7 +4,7 @@ module RGSSAD
   @@xor = 0xDEADCAFE
   @@rgss3a_xor = 0
   @@orig_xor = 0
-  ENC_FILE = Dir["Game.rgss{ad,2a,3a}"][0]
+  ENC_FILE = Dir["Game.rgss{ad,2a,3a}"][0] || ""
   RGSSAD_File = Struct.new('RGSSAD_File', :filename, :filename_size, :file, :file_size)
 
   public
