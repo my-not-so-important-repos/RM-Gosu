@@ -14,7 +14,7 @@ RGSS3 -
 
   ext - 
     Object (msgbox, msgbox_p)
-    
+    RGSSAD (rgss3a decryption)
     
     
 RGSS2 -
