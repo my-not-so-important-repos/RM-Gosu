@@ -2,11 +2,10 @@ require 'gosu'
 require 'zlib'
 require 'oily_png'
 
-Dir["rgss3/**/*.rb"].each {|a| require_relative(a) }
-
 class GosuGame < Gosu::Window
   
   CONFIG = {
+    :Maker => "rgss3",
     :RTP => "RPGVXAce",
     :Title => "Game",
     :Width => 544,
@@ -59,6 +58,8 @@ class GosuGame < Gosu::Window
     end
   end
 end
+
+Dir["#{GosuGame::CONFIG[:Maker]}/**/*.rb"].each {|a| require_relative(a) }
 
 Graphics.gosu_window = GosuGame.new
 

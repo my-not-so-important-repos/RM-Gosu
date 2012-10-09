@@ -1,0 +1,2 @@
+class Reset < Exception
+end

@@ -93,10 +93,6 @@ module Graphics
     reform_window(w, h, fullscreen?, gosu_window.update_interval)
   end
   
-  def play_movie(filename)
-    # LIKELY TO REMAIN UNINTEGRATED
-  end
-  
   # NEW
   
   def add_sprite(sprite)

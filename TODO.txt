@@ -1,14 +1,31 @@
-classes - 
-	Bitmap (gradient_fill_rect, radial_blur)
-	Plane (All)
-	Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
-	Tilemap (All)
-	Viewport (update) <incorporate flash effect>
-	Window (All)
+RGSS3 -
 
-modules - 
-	Graphics (transitions, frame_reset, play_movie)
-	Input (repeat?)
+  classes - 
+    Bitmap (gradient_fill_rect, radial_blur)
+    Plane (All)
+    Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
+    Tilemap (All)
+    Viewport (update) <incorporate flash effect>
+    Window (All)
 
-ext - 
-	Object (msgbox, msgbox_p)
+  modules - 
+    Graphics (transitions, frame_reset, play_movie)
+    Input (repeat?)
+
+  ext - 
+    Object (msgbox, msgbox_p)
+    
+    
+    
+RGSS2 -
+
+  classes - 
+    Bitmap (gradient_fill_rect, radial_blur)
+    Plane (All)
+    Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
+    Tilemap (All)
+    Viewport (update) <incorporate flash effect>
+
+  modules - 
+    Graphics (transitions, frame_reset)
+    Input (repeat?)
