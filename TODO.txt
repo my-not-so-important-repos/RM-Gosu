@@ -30,3 +30,17 @@ RGSS2 -
   modules - 
     Graphics (transitions, frame_reset)
     Input (repeat?)
+
+
+RGSS1 -
+
+  classes - 
+    Plane (All)
+    Sprite (update) <flash, color blendings, alpha blending>
+    Tilemap (All)
+    Viewport (update) <incorporate flash effect>
+    Window (All)
+
+  modules - 
+    Graphics (transitions, frame_reset)
+    Input (repeat?)
