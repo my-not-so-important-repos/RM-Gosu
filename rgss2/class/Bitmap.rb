@@ -107,7 +107,7 @@ class Bitmap
   end
   
   def blur
-    @chunkypng_image.gaussian_blur
+    @chunkypng_image.blur
     @gosu_image.insert(@chunkypng_image, 0, 0)
   end
   

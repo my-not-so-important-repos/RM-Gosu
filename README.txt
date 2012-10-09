@@ -10,5 +10,5 @@ Uses:
 
 Extra Credits:
 
-- vgvgf (Table class, Color/Tone marshal methods)
+- Yeyinde (RGSSAD module, Table class)
 - Enterbrain (Maker of RPG Maker)
