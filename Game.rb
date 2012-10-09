@@ -62,11 +62,4 @@ end
 Dir["#{GosuGame::CONFIG[:Maker]}/**/*.rb"].each {|a| require_relative(a) }
 
 Graphics.gosu_window = GosuGame.new
-
-Thread.new {
-  loop {
-    Graphics.update
-  }
-}
-
 Graphics.gosu_window.show

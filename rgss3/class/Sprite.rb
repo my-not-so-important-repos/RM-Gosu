@@ -1,7 +1,7 @@
 class Sprite
   
   attr_reader :opacity, :bush_opacity
-  attr_accessor :x, :y, :x, :ox, :oy, :zoom_x, :zoom_y
+  attr_accessor :x, :y, :z, :ox, :oy, :zoom_x, :zoom_y
   attr_accessor :src_rect, :bitmap, :viewport, :visible
   attr_accessor :wave_amp, :wave_length, :wave_speed, :wave_phase
   attr_accessor :angle, :mirror, :color, :tone, :blend_type

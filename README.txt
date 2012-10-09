@@ -11,5 +11,4 @@ Uses:
 Extra Credits:
 
 - vgvgf (Table class, Color/Tone marshal methods)
-- Peter O (RGSS2 Window class)
 - Enterbrain (Maker of RPG Maker)

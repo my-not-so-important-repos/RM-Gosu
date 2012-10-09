@@ -25,6 +25,7 @@ RGSS2 -
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
     Tilemap (All)
     Viewport (update) <incorporate flash effect>
+    Window (All)
 
   modules - 
     Graphics (transitions, frame_reset)
