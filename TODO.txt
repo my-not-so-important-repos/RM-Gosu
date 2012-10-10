@@ -2,7 +2,7 @@ RGSS3 -
 
   classes - 
     Bitmap (gradient_fill_rect, radial_blur)
-    Plane (All)
+    Plane <incorporate bitmap tiling>
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
     Tilemap (All)
     Viewport (update) <incorporate flash effect>
@@ -21,7 +21,7 @@ RGSS2 -
 
   classes - 
     Bitmap (gradient_fill_rect, radial_blur)
-    Plane (All)
+    Plane <incorporate bitmap tiling>
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
     Tilemap (All)
     Viewport (update) <incorporate flash effect>
@@ -35,7 +35,7 @@ RGSS2 -
 RGSS1 -
 
   classes - 
-    Plane (All)
+    Plane <incorporate bitmap tiling>
     Sprite (update) <flash, color blendings, alpha blending>
     Tilemap (All)
     Viewport (update) <incorporate flash effect>
