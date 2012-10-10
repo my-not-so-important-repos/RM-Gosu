@@ -55,66 +55,6 @@ module ChunkyPNG
         }
       }
     end
-    
-    def gaussian_blur
-      height.times {|h|
-        width.times {|w|
-          pixels = []
-          if include_xy?(w - 1, h - 1)
-            pixels << self[w - 1, h - 1]
-          else
-            pixels << (self[w - 1, h] rescue self[w, h])
-          end
-          #
-          if include_xy?(w, h - 1)
-            pixels << self[w, h - 1]
-          else
-            pixels << self[w, h]
-          end
-          #
-          if include_xy?(w + 1, h - 1)
-            pixels << self[w + 1, h - 1]
-          else
-            pixels << (self[w + 1, h] rescue self[w, h])
-          end
-          #
-          if include_xy?(w - 1, h)
-            pixels << self[w - 1, h]
-          else
-            pixels << self[w, h]
-          end
-          #
-          if include_xy?(w + 1, h)
-            pixels << self[w + 1, h ]
-          else
-            pixels << self[w, h]
-          end
-          #
-          if include_xy?(w - 1, h + 1)
-            pixels << self[w - 1, h + 1]
-          else
-            pixels << (self[w - 1, h] rescue self[w, h])
-          end
-          #
-          if include_xy?(w, h + 1)
-            pixels << self[w, h + 1]
-          else
-            pixels << self[w, h]
-          end
-          #
-          if include_xy?(w + 1, h + 1)
-            pixels << self[w + 1, h + 1]
-          else
-            pixels << (self[w + 1, h] rescue self[w, h])
-          end
-          col = self[w, h]
-          pixels.each {|c|
-            col = Color.interpolate_quick(col, c, 128)
-          }
-          self[w, h] = col
-        }
-      }
-    end
   end
   
   module Color

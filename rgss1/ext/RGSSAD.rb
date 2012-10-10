@@ -127,8 +127,3 @@ module RGSSAD
     return new_string
   end
 end
-
-RGSSAD.decrypt
-RGSSAD.files.each {|a|
-  p a.filename
-}
