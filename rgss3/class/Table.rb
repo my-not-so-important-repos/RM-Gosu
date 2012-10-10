@@ -1,11 +1,15 @@
 class Table
   
-   attr_accessor :xsize, :ysize, :zsize, :data
-  
+  attr_accessor :xsize, :ysize, :zsize, :data
+
   def initialize(x, y = 0, z = 0)
     @dim = 1 + (y > 0 ? 1 : 0) + (z > 0 ? 1 : 0)
     @xsize, @ysize, @zsize = x, [y, 1].max, [z, 1].max
     @data = Array.new(x * y * z, 0)
+  end
+      
+  def [](x, y = 0, z = 0)
+    @data[x + y * @xsize + z * @xsize * @ysize]
   end
   
   def resize(x, y = nil, z = nil)
@@ -17,10 +21,7 @@ class Table
     end
   end
    
-  def [](x, y = 0, z = 0)
-    @data[x + y * @xsize + z * @xsize * @ysize]
-  end
-   
+      
   def []=(*args)
     x = args[0]
     y = args.size > 2 ? args[1] : 0
@@ -28,15 +29,42 @@ class Table
     v = args.pop
     @data[x + y * @xsize + z * @xsize * @ysize] = v
   end
-   
+      
   def _dump(d = 0)
-    [@dim, @xsize, @ysize, @zsize, @xsize * @ysize * @zsize].pack('LLLLL') << @data.pack("S#{@xsize * @ysize * @zsize}")
+    s = [@dim, @xsize, @ysize, @zsize, @xsize * @ysize * @zsize].pack('LLLLL')
+    a = []
+    ta = []
+    @data.each do |d|
+      if d.is_a?(Fixnum) && (d < 32768 && d >= 0)
+        s << [d].pack("S")
+      else
+        s << [ta].pack("S#{ta.size}")
+        ni = a.size
+        a << d
+        s << [0x8000|ni].pack("S")
+      end
+    end
+    if a.size > 0
+      s << Marshal.dump(a)
+    end
+    s
   end
-   
+      
   def self._load(s)
     size, nx, ny, nz, items = *s[0, 20].unpack('LLLLL')
     t = Table.new(*[nx, ny, nz][0,size])
-    t.data = s[20, items * 2].unpack("S#{items}")
+    d = s[20, items * 2].unpack("S#{items}")
+    if s.length > (20+items*2)
+      a = Marshal.load(s[(20+items*2)...s.length])
+      d.collect! do |i|
+        if i & 0x8000 == 0x8000
+          a[i&~0x8000]
+        else
+          i
+        end
+      end
+    end
+    t.data = d
     t
   end
 end
