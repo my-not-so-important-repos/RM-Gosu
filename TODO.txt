@@ -24,7 +24,7 @@ RGSS2 -
     Plane <incorporate bitmap tiling>
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
     Tilemap (All)
-    Viewport (update) <incorporate flash effect>
+    Viewport (update[, setup_arrows, setup_pause, setup_border]) <incorporate flash effect>
     Window (All)
 
   modules - 
