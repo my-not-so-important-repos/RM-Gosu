@@ -1,14 +1,13 @@
 class Window
   
   attr_reader :windowskin, :contents, :stretch, :opacity, :back_opacity, :contents_opacity
-  attr_reader :width, :height, :viewport
-  attr_accessor :x, :y, :z, :ox, :oy, :cursor_rect, :active, :visible, :pause
+  attr_reader :width, :height, :viewport, :cursor_rect
+  attr_accessor :x, :y, :z, :ox, :oy, :active, :visible, :pause
   
   def initialize(viewport = nil)
     @viewport = viewport
     @x, @y, @z, @ox, @oy = 0, 0, 0, 0, 0
     @stretch = true
-    @cursor_rect = Rect.new(0, 0, 0, 0)
     @active = false
     @visible = true
     @pause = false
@@ -26,7 +25,8 @@ class Window
       :pause_one => Sprite.new,
       :pause_two => Sprite.new,
       :pause_three => Sprite.new,
-      :pause_four => Sprite.new
+      :pause_four => Sprite.new,
+      :cursor => Sprite.new
     }
     @sprites.values.each {|a| Graphics.remove_sprite(a) }
     Graphics.add_sprite(self)
@@ -46,6 +46,7 @@ class Window
     setup_arrows
     setup_pauses
     setup_border
+    setup_cursor
   end
   
   def contents=(bit)
@@ -65,6 +66,7 @@ class Window
     }
     @sprites[:back_opacity].opacity = @back_opacity
     @sprites[:contents].opacity = @contents_opacity
+    @sprites[:cursor].opacity = 255
   end
   
   def back_opacity=(int)
@@ -75,6 +77,11 @@ class Window
   def contents_opacity=(int)
     @contents_opacity = int
     @sprites[:contents].opacity = int
+  end
+  
+  def cursor_rect=(rect)
+    @cursor_rect = rect
+    setup_cursor
   end
   
   # NEW
@@ -91,5 +98,8 @@ class Window
   end
   
   def setup_border
+  end
+  
+  def setup_cursor
   end
 end
