@@ -1,19 +1,19 @@
 class Window
   
-  attr_reader :windowskin, :contents, :stretch, :opacity, :back_opacity, :contents_opacity
-  attr_reader :width, :height, :viewport, :cursor_rect
-  attr_accessor :x, :y, :z, :ox, :oy, :active, :visible, :pause
+  attr_reader :windowskin, :contents, :opacity, :back_opacity, :contents_opacity
+  attr_reader :width, :height, :cursor_rect
+  attr_accessor :x, :y, :z, :ox, :oy, :active, :visible, :pause, :viewport, :openness
   
   def initialize(viewport = nil)
     @viewport = viewport
     @x, @y, @z, @ox, @oy = 0, 0, 0, 0, 0
-    @stretch = true
     @active = false
     @visible = true
     @pause = false
     @opacity = 255
     @back_opacity = 255
     @contents_opacity = 255
+    @openness = 255
     @sprites = {
       :contents => Sprite.new,
       :back => Sprite.new,
@@ -34,16 +34,13 @@ class Window
   
   def windowskin=(bit)
     @windowskin = bit
-    @sprites[:back] = @stretch ? Sprite.new : Plane.new
+    @sprites[:back] = Sprite.new
     Graphics.remove_sprite(@sprites[:back])
     bitm = Bitmap.new(128, 128)
     @sprites[:back].bitmap = bitm
     if bit != nil
-      if @stretch
-        bitm.stretch_blt(Rect.new(0, 0, @width, @height), bit, Rect.new(0, 0, 128, 128), 255)
-      else
-        bitm.blt(0, 0, bit, Rect.new(0, 0, 128, 128))
-      end
+      bitm.stretch_blt(Rect.new(0, 0, @width, @height), bit, Rect.new(0, 0, 128, 64), 255)
+      setup_background_overlay
       setup_arrows
       setup_pauses
       setup_border
@@ -102,6 +99,9 @@ class Window
   end
   
   private
+  
+  def setup_background_overlay
+  end
   
   def setup_arrows
   end
