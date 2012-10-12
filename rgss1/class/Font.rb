@@ -7,8 +7,7 @@ class Font
     attr_accessor :default_color
     
     def exist?(name)
-      f = (Gosu::Font.new(Graphics.gosu_window, "./Fonts/#{name}.ttf", 8) rescue false)
-      Gosu::Font.new(Graphics.gosu_window, name, 8) unless f
+      Gosu::Font.new(Graphics.gosu_window, name, 8)
       return true
     rescue
       return false
