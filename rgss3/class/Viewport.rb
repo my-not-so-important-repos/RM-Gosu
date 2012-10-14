@@ -32,10 +32,11 @@ class Viewport
   end
   
   def flash(color, duration)
-    @flash_color = color
+    @flash_color = color || Color.new(0, 0, 0, 0)
     @flash_duration = duration
   end
   
   def update
+    @flash_duration = [@flash_duration - 1, 0].max
+    @flash_color = nil if @flash_duration == 0
   end
-end
