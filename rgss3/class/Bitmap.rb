@@ -7,7 +7,11 @@ class Bitmap
     case height
     when nil
       if width.is_a?(String)
-        @gosu_image = Gosu::Image.new(Graphics.gosu_window, width, false)
+        [".png", ".jpg"].each {|a|
+          @gosu_image = Gosu::Image.new(Graphics.gosu_window, width + a, false) rescue next
+          break
+        }
+        raise "File not found" if @gosu_image == nil
       else
         raise ArgumentError
       end

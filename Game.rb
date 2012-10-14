@@ -27,6 +27,8 @@ class GosuGame < Gosu::Window
     end
   end
   
+  CONFIG[:data_files] = CONFIG[:Maker] == "rgss1" ? "rxdata" : CONFIG[:Maker] == "rgss2" ? "rvdata" : "rvdata2"
+  
   @@show_fps = false
   
   def initialize(width = CONFIG[:Width], height = CONFIG[:Height], fullscreen = CONFIG[:Fullscreen], fps = 1.0 / CONFIG[:Framerate] * 1000)

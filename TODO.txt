@@ -37,7 +37,6 @@ RGSS1 -
   classes - 
     Plane <incorporate bitmap tiling>
     Sprite (update) <flash, color blendings, alpha blending>
-    Tilemap (All)
     Viewport (update) <incorporate flash effect>
     Window (update[, setup_arrows, setup_border, setup_cursor]) <incorporate all actual drawing>
 

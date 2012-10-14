@@ -7,7 +7,7 @@ class Rect
   end
   
   def set(x, y, width, height)
-    @x, @y, @width, @height = x, y, width, height
+    @x, @y, @width, @height = x.to_i, y.to_i, width.to_i, height.to_i
   end
   
   def to_a
