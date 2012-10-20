@@ -61,7 +61,7 @@ class GosuGame < Gosu::Window
   end
 end
 
-Dir["#{GosuGame::CONFIG[:Maker]}/**/*.rb"].each {|a| require_relative(a) }
+Dir["#{GosuGame::CONFIG[:Maker]}/**/*.{rb,so}"].each {|a| require_relative(a) }
 
 Graphics.gosu_window = GosuGame.new
 RGSSAD.decrypt
