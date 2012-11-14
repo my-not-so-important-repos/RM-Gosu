@@ -2,7 +2,6 @@ RGSS3 -
 
   classes - 
     Bitmap (gradient_fill_rect, radial_blur)
-    Plane <incorporate bitmap tiling>
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
     Tilemap (All)
     Window (All)
@@ -20,7 +19,6 @@ RGSS2 -
 
   classes - 
     Bitmap (gradient_fill_rect, radial_blur)
-    Plane <incorporate bitmap tiling>
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
     Tilemap (All)
     Window (update[, setup_arrows, setup_border, setup_cursor, setup_background_overlay]) <incorporate all actual drawing>
@@ -33,7 +31,6 @@ RGSS2 -
 RGSS1 -
 
   classes - 
-    Plane <incorporate bitmap tiling>
     Sprite <color blendings>
     Window (update[, setup_arrows, setup_border, setup_cursor]) <incorporate all actual drawing>
 

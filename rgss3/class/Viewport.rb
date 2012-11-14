@@ -40,3 +40,4 @@ class Viewport
     @flash_duration = [@flash_duration - 1, 0].max
     @flash_color = nil if @flash_duration == 0
   end
+end

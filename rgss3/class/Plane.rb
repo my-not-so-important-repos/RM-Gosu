@@ -1,56 +1,57 @@
 class Plane
   
-  attr_reader :opacity
-  attr_accessor :x, :y, :z, :ox, :oy, :zoom_x, :zoom_y
-  attr_accessor :src_rect, :bitmap, :visible, :viewport
-  attr_accessor :color, :tone, :blend_type
-  
-  BLEND = {0 => :default, 1 => :additive, 2 => :subtractive}
-  
+  attr_reader :ox, :oy
+
   def initialize(viewport = nil)
-    @viewport = viewport
-    @visible = true
-    @x, @y, @z = 0, 0, 0
-    @ox, @oy = 0, 0
-    @zoom_x, @zoom_y = 1.0, 1.0
-    @mirror = false
-    @opacity = 255
-    @blend_type = 0
-    @src_rect = Rect.new(0, 0, 0, 0)
-    Graphics.add_sprite(self)
+    @sprite = Sprite.new(viewport)
+    @max_width = Graphics.width
+    @max_height = Graphics.height
+    @bitmap = nil
+    @ox = 0
+    @oy = 0
   end
-  
-  def initialize_copy
-    f = super
-    Graphics.add_sprite(f)
-    f
+
+  def method_missing(symbol, *args)
+    @sprite.method(symbol).call(*args)
   end
-  
-  def dispose
-    @disposed = true
-    Graphics.remove_sprite(self)
-  end
-  
-  def disposed?
-    @disposed
-  end
-  
-  def update
-  end
-  
-  def opacity=(int)
-    @opacity = [[int, 255].min, 0].max
-  end
-  
+
   def bitmap=(bitmap)
     @bitmap = bitmap
-    @src_rect = Rect.new(0, 0, bitmap.width, bitmap.height)
+    refresh
   end
-  
-  # NEW
-  
-  def draw
-    return if !@visible || @opacity == 0 || @bitmap == nil
-    @bitmap.gosu_image.draw(@x, @y, @z, @zoom_x * (@mirror ? -1 : 1), @zoom_y, 0xffffffff, BLEND[@blend_type])
+
+  def ox=(ox)
+    w = @sprite.viewport != nil ? @sprite.viewport.rect.width : @max_width
+    @ox = ox % w
+    @sprite.ox = @ox
+  end
+
+  def oy=(oy)
+    h = @sprite.viewport != nil ? @sprite.viewport.rect.height : @max_height
+    @oy = oy % h
+    @sprite.oy = @oy
+  end
+
+  def refresh
+    return if @bitmap.nil?
+    w = @sprite.viewport != nil ? @sprite.viewport.rect.width : @max_width
+    h = @sprite.viewport != nil ? @sprite.viewport.rect.height : @max_height
+    if @sprite.bitmap != nil
+      @sprite.bitmap.dispose
+    end
+    @sprite.bitmap = Bitmap.new(w * 2, h * 2)
+    max_x = w / @bitmap.width
+    max_y = h / @bitmap.height
+    for x in 0..max_x
+      for y in 0..max_y
+        @sprite.bitmap.blt(x * @bitmap.width, y * @bitmap.height,
+         @bitmap, Rect.new(0, 0, @bitmap.width, @bitmap.height))
+      end
+    end
+    for i in 1...4
+      x = i % 2 * w
+      y = i / 2 * h
+      @sprite.bitmap.blt(x, y, @sprite.bitmap, Rect.new(0, 0, w, h))
+    end
   end
 end
