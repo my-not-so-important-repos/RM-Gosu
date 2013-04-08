@@ -26,7 +26,7 @@ class Tone
   end
   
   def gray=(int)
-    @gray = [[255, int].min, -255].max.to_f
+    @gray = [[255, int].min, 0].max.to_f
   end
   
   def _dump(d = 0)

@@ -36,4 +36,10 @@ class Color
   def self._load(s)
     Color.new(*s.unpack('d4'))
   end
+  
+  # NEW
+  
+  def to_a
+    [red, green, blue, alpha]
+  end
 end

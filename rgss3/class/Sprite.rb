@@ -42,11 +42,13 @@ class Sprite
   end
   
   def flash(color, duration)
-    @flash_color = color
+    @flash_color = color || Color.new(0, 0, 0, 0)
     @duration = duration
   end
   
   def update
+    @duration = [@duration - 1, 0].max
+    @flash_color = nil if @duration == 0
   end
   
   def width

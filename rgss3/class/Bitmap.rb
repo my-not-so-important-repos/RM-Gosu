@@ -74,6 +74,47 @@ class Bitmap
   end
   
   def gradient_fill_rect(*args)
+    case args.size
+    when 3, 6
+      if args[0].is_a?(Rect)
+        x, y, width, height = *args[0].to_a
+        color1 = args[1]
+        color2 = args[2]
+        vertical = false
+      else
+        x, y, width, height = *args[0..3]
+        color1 = args[4]
+        color2 = args[5]
+        vertical = false
+      end
+    when 4, 7
+      if args[0].is_a?(Rect)
+        x, y, width, height = *args[0].to_a
+        color1 = args[1]
+        color2 = args[2]
+        vertical = args[3]
+      else
+        x, y, width, height = *args[0..3]
+        color1 = args[4]
+        color2 = args[5]
+        vertical = args[6]
+      end
+    else
+      raise ArgumentError
+    end
+    red1, green1, blue1, alpha1 = *color1.to_a
+    red2, green2, blue2, alpha2 = *color2.to_a
+    x_dif = width - x
+    y_dif = height - y
+    if !vertical
+      x_dif.times do |i|
+        fill_rect(x + i, y, 1, height, Color.new((red1 - red2) / x_dif * i, (blue1 - blue2) / x_dif * i, (green1 - green2) / x_dif * i))
+      end
+    else
+      y_dif.times do |i|
+        fill_rect(x, y + i, width, 1, Color.new((red1 - red2) / y_dif * i, (blue1 - blue2) / y_dif * i, (green1 - green2) / y_dif * i))
+      end
+    end
   end
   
   def clear

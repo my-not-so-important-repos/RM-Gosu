@@ -50,7 +50,7 @@ class Tone
   end
   
   def gray=(int)
-    @gray = [[255, int].min, -255].max.to_f
+    @gray = [[255, int].min, 0].max.to_f
   end
   
   def _dump(d = 0)
@@ -59,5 +59,11 @@ class Tone
    
   def self._load(s)
     Tone.new(*s.unpack('d4'))
+  end
+  
+  # NEW
+  
+  def to_a
+    [red, green, blue, gray]
   end
 end

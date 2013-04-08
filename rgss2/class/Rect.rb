@@ -10,6 +10,8 @@ class Rect
     @x, @y, @width, @height = x, y, width, height
   end
   
+  # NEW
+  
   def to_a
     [x, y, width, height]
   end
