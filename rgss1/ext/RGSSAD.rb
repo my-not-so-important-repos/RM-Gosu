@@ -2,9 +2,7 @@ module RGSSAD
 
   @@files = []
   @@xor = 0xDEADCAFE
-  @@rgss3a_xor = 0
-  @@orig_xor = 0
-  ENC_FILE = Dir["Game.rgss{ad,2a,3a}"][0] || ""
+  ENC_FILE = Dir["Game.rgss{ad,2a}"][0] || ""
   RGSSAD_File = Struct.new('RGSSAD_File', :filename, :filename_size, :file, :file_size)
 
   public
@@ -15,7 +13,6 @@ module RGSSAD
     rgssad = ''
     File.open(ENC_FILE, 'rb') {|file|
       file.read(8)
-      @@orig_xor = file.read(4).unpack('L*') * 9 + 3 if ENC_FILE == "Game.rgss3a"
       rgssad = file.read
     }
     rgssad = self.parse_rgssad(rgssad, true)
@@ -67,20 +64,11 @@ module RGSSAD
   private
 
   def self.next_key
-    if ENC_FILE == "Game.rgss3a"
-      @@rgss3a_xor = (@@rgss3a_xor * 7 + 3) & 0xFFFFFFFF
-    else
-      @@xor = (@@xor * 7 + 3) & 0xFFFFFFFF
-    end
-  end
-  
-  def self.used_xor
-    ENC_FILE == "Game.rgss3a" ? @@rgss3a_xor : @@xor
+    @@xor = (@@xor * 7 + 3) & 0xFFFFFFFF
   end
   
   def self.parse_rgssad(string, decrypt)
     @@xor = 0xDEADCAFE
-    @@rgss3a_xor = @@orig_xor
     new_string = ''
     offset = 0
     remember_offsets = []
@@ -88,38 +76,38 @@ module RGSSAD
     remember_size = []
     while string[offset] != nil
       namesize = string[offset, 4].unpack('L')[0]
-      new_string << [namesize ^ used_xor].pack('L')
-      namesize ^= used_xor if decrypt
+      new_string << [namesize ^ @@xor].pack('L')
+      namesize ^= @@xor if decrypt
       offset += 4
       self.next_key
       filename = string[offset, namesize]
       namesize.times do |i|
-        filename.setbyte(i, filename.getbyte(i) ^ used_xor & 0xFF)
+        filename.setbyte(i, filename.getbyte(i) ^ @@xor & 0xFF)
         self.next_key
       end
       new_string << filename
       offset += namesize
       datasize = string[offset, 4].unpack('L')[0]
-      new_string << [datasize ^ used_xor].pack('L')
-      datasize ^= used_xor if decrypt
+      new_string << [datasize ^ @@xor].pack('L')
+      datasize ^= @@xor if decrypt
       remember_size << datasize
       offset += 4
       self.next_key
       data = string[offset, datasize]
       new_string << data
       remember_offsets << offset
-      remember_keys << used_xor
+      remember_keys << @@xor
       offset += datasize
     end
     remember_offsets.size.times do |i|
       offset = remember_offsets[i]
-      used_xor = remember_keys[i]
+      @@xor = remember_keys[i]
       size = remember_size[i]
       data = new_string[offset, size]
       data = data.ljust(size + (4 - size % 4)) if size % 4 != 0
       s = ''
       data.unpack('L' * (data.size / 4)).each do |j|
-        s << ([j ^ used_xor].pack('L'))
+        s << ([j ^ @@xor].pack('L'))
         self.next_key
       end
       new_string[offset, size] = s.slice(0, size)

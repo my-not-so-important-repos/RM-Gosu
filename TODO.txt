@@ -3,7 +3,7 @@ RGSS3 -
   classes - 
     Bitmap (gradient_fill_rect, radial_blur)
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
-    Tilemap (All)
+    Tilemap <incorporate shadows and flash_data>
     Window (All)
 
   modules - 
@@ -20,7 +20,7 @@ RGSS2 -
   classes - 
     Bitmap (gradient_fill_rect, radial_blur)
     Sprite (update) <incorporate wave, flash, color blendings, alpha blending>
-    Tilemap (All)
+    Tilemap <incorporate shadows and flash_data>
     Window (update[, setup_arrows, setup_border, setup_cursor, setup_background_overlay]) <incorporate all actual drawing>
 
   modules - 
