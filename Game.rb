@@ -48,7 +48,7 @@ class GosuGame < Gosu::Window
     if @@show_fps
       self.caption = CONFIG[:Title] + " (#{Gosu.fps} FPS)"
     else
-      self.caption = CONFIG[:Title]
+      self.caption = CONFIG[:Title] if self.caption != CONFIG[:Title]
     end
   end
   
